@@ -31,6 +31,10 @@ class UserRepository implements IUserRepository {
   findByEmail(email: string): User {
     return this.users.find((user) => user.email === email);
   }
+
+  findById(id: string): User {
+    return this.users.find((user) => user.id === id);
+  }
 }
 
 export { UserRepository };

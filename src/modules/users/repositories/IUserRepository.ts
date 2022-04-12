@@ -10,6 +10,7 @@ interface IUserRepository {
   create: (user: ICreateUserDTO) => User;
   list: () => User[];
   findByEmail: (email: string) => User;
+  findById: (id: string) => User;
 }
 
 export { IUserRepository, ICreateUserDTO };
