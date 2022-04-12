@@ -5,6 +5,7 @@ class Company {
   name: string;
   cnpj: string;
   description: string;
+  user: string;
   created_at: Date;
   updated_at: Date;
 
