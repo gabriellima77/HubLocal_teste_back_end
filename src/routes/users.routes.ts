@@ -14,4 +14,8 @@ usersRouter.post("users/signup", (req, res) => {
   res.end();
 });
 
+usersRouter.get("users/logout", (req, res) => {
+  res.end();
+});
+
 export { usersRouter };
