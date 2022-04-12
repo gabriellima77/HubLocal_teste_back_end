@@ -1,20 +1,19 @@
 import { Router } from "express";
 
 import { createUserController } from "../modules/users/useCases/createUser";
+import { userLoginController } from "../modules/users/useCases/userLogin";
 
 const usersRouter = Router();
 
-usersRouter.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password);
-  res.end();
+usersRouter.post("/login", (request, response) => {
+  return userLoginController.handle(request, response);
 });
 
-usersRouter.post("/signup", (req, res) => {
-  return createUserController.handle(req, res);
+usersRouter.post("/signup", (request, response) => {
+  return createUserController.handle(request, response);
 });
 
-usersRouter.get("/logout", (req, res) => {
+usersRouter.get("/logout", (request, response) => {
   res.end();
 });
 
