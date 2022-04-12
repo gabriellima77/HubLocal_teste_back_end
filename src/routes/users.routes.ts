@@ -14,7 +14,7 @@ usersRouter.post("/signup", (request, response) => {
 });
 
 usersRouter.get("/logout", (request, response) => {
-  res.end();
+  response.end();
 });
 
 export { usersRouter };
