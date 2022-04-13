@@ -19,7 +19,7 @@ function checkIfUserExists(request, response, next) {
   return next();
 }
 
-usersRouter.use("/companies", checkIfUserExists, empresasRouter);
+usersRouter.use("/empresas", checkIfUserExists, empresasRouter);
 
 usersRouter.post("/login", (request, response) => {
   return userLoginController.handle(request, response);

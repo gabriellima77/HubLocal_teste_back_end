@@ -29,11 +29,7 @@ class CompaniesRepository implements ICompaniesRepository {
     return company;
   }
 
-  list(): Company[] {
-    return this.companies;
-  }
-
-  getCompaniesByUser(userId: string): Company[] {
+  list(userId: string): Company[] {
     return this.companies.filter((company) => company.user === userId);
   }
 

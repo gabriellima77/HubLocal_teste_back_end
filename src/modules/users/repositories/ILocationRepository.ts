@@ -1,6 +1,7 @@
 import { Location } from "../model/Location";
 
 interface ICreateLocationDTO {
+  company: string;
   name: string;
   address: string;
   city: string;

@@ -20,9 +20,15 @@ class LocationRepository implements ILocationRepository {
     return this.INSTANCE;
   }
 
-  create({ address, city, name, state }: ICreateLocationDTO): Location {
+  create({
+    company,
+    address,
+    city,
+    name,
+    state,
+  }: ICreateLocationDTO): Location {
     const location = new Location();
-    Object.assign(location, { address, city, name, state });
+    Object.assign(location, { address, city, name, state, company });
     this.locations.push(location);
     return location;
   }
@@ -50,3 +56,5 @@ class LocationRepository implements ILocationRepository {
     return id;
   }
 }
+
+export { LocationRepository };
