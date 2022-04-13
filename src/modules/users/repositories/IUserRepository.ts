@@ -6,10 +6,18 @@ interface ICreateUserDTO {
   password: string;
 }
 
+interface IUpdateUserDTO {
+  name: string;
+  email: string;
+  id: string;
+}
+
 interface IUserRepository {
   create: (user: ICreateUserDTO) => User;
   list: () => User[];
   findByEmail: (email: string) => User;
+  findById: (id: string) => User;
+  update: (update: IUpdateUserDTO) => User;
 }
 
-export { IUserRepository, ICreateUserDTO };
+export { IUserRepository, ICreateUserDTO, IUpdateUserDTO };

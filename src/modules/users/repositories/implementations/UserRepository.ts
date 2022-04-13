@@ -1,5 +1,9 @@
 import { User } from "../../model/User";
-import { IUserRepository, ICreateUserDTO } from "../IUserRepository";
+import {
+  IUserRepository,
+  ICreateUserDTO,
+  IUpdateUserDTO,
+} from "../IUserRepository";
 
 class UserRepository implements IUserRepository {
   private users: User[];
@@ -30,6 +34,17 @@ class UserRepository implements IUserRepository {
 
   findByEmail(email: string): User {
     return this.users.find((user) => user.email === email);
+  }
+
+  findById(id: string): User {
+    return this.users.find((user) => user.id === id);
+  }
+
+  update({ email, name, id }: IUpdateUserDTO): User {
+    const index = this.users.findIndex((user) => user.id === id);
+    this.users[index].email = email;
+    this.users[index].name = name;
+    return this.users[index];
   }
 }
 
