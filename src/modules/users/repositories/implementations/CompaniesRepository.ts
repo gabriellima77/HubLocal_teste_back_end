@@ -2,6 +2,7 @@ import { Company } from "../../model/Company";
 import {
   ICompaniesRepository,
   ICreateCompanyDTO,
+  IUpdateCompanyDTO,
 } from "../ICompaniesRepository";
 
 class CompaniesRepository implements ICompaniesRepository {
@@ -42,6 +43,19 @@ class CompaniesRepository implements ICompaniesRepository {
 
   findCompanyById(id: string): Company {
     return this.companies.find((company) => company.id === id);
+  }
+
+  delete(id: string): string {
+    const index = this.companies.findIndex((company) => company.id === id);
+    this.companies.splice(index, 1);
+    return id;
+  }
+
+  update({ description, name, id }: IUpdateCompanyDTO): Company {
+    const index = this.companies.findIndex((company) => company.id === id);
+    this.companies[index].description = description;
+    this.companies[index].name = name;
+    return this.companies[index];
   }
 }
 
