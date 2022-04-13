@@ -4,6 +4,8 @@ class Location {
   id: string;
   name: string;
   address: string;
+  city: string;
+  state: string;
   company: string;
   created_at: Date;
   updated_at: Date;
