@@ -8,8 +8,12 @@ interface ICreateLocationDTO {
   state: string;
 }
 
-interface IUpdateLocationDTO extends ICreateLocationDTO {
+interface IUpdateLocationDTO {
   id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
 }
 
 interface ILocationRepository {
