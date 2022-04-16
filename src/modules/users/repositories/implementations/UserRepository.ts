@@ -1,4 +1,7 @@
-import { User } from "../../model/User";
+import { Repository } from "typeorm";
+
+import { dataSource } from "../../../../database";
+import { User } from "../../entities/User";
 import {
   IUserRepository,
   ICreateUserDTO,
@@ -6,45 +9,45 @@ import {
 } from "../IUserRepository";
 
 class UserRepository implements IUserRepository {
-  private users: User[];
-  private static INSTANCE: UserRepository;
+  private repository: Repository<User>;
 
   constructor() {
-    this.users = [];
+    this.repository = dataSource.getRepository(User);
   }
 
-  public static getInstace(): UserRepository {
-    if (!this.INSTANCE) {
-      this.INSTANCE = new UserRepository();
-    }
-    return this.INSTANCE;
+  async create({ name, email, password }: ICreateUserDTO): Promise<void> {
+    const user = this.repository.create({
+      name,
+      email,
+      password,
+    });
+
+    await this.repository.save(user);
   }
 
-  create({ name, email, password }: ICreateUserDTO): User {
-    const user = new User();
-    Object.assign(user, { name, email, password });
+  async list(): Promise<User[]> {
+    const users = await this.repository.find();
+    return users;
+  }
 
-    this.users.push(user);
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.repository.findOne({ where: { email } });
+
     return user;
   }
 
-  list(): User[] {
-    return this.users;
+  async findById(id: string): Promise<User> {
+    const user = this.repository.findOne({ where: { id } });
+    return user;
   }
 
-  findByEmail(email: string): User {
-    return this.users.find((user) => user.email === email);
-  }
-
-  findById(id: string): User {
-    return this.users.find((user) => user.id === id);
-  }
-
-  update({ email, name, id }: IUpdateUserDTO): User {
-    const index = this.users.findIndex((user) => user.id === id);
-    this.users[index].email = email;
-    this.users[index].name = name;
-    return this.users[index];
+  async update({ email, name, id }: IUpdateUserDTO): Promise<User> {
+    const user = await this.repository.save({
+      id,
+      email,
+      name,
+    });
+    return user;
   }
 }
 
