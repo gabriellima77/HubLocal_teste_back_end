@@ -1,4 +1,7 @@
-import { Company } from "../../model/Company";
+import { Repository } from "typeorm";
+
+import { dataSource } from "../../../../database";
+import { Company } from "../../entities/Company";
 import {
   ICompaniesRepository,
   ICreateCompanyDTO,
@@ -6,52 +9,55 @@ import {
 } from "../ICompaniesRepository";
 
 class CompaniesRepository implements ICompaniesRepository {
-  private companies: Company[];
-  private static INSTANCE: CompaniesRepository;
+  private repository: Repository<Company>;
 
   constructor() {
-    this.companies = [];
+    this.repository = dataSource.getRepository(Company);
   }
 
-  public static getInstance(): CompaniesRepository {
-    if (!this.INSTANCE) {
-      this.INSTANCE = new CompaniesRepository();
-    }
-
-    return this.INSTANCE;
+  async create({
+    cnpj,
+    description,
+    name,
+    user,
+  }: ICreateCompanyDTO): Promise<void> {
+    const company = this.repository.create({
+      name,
+      description,
+      cnpj,
+      user,
+    });
+    await this.repository.save(company);
   }
 
-  create({ cnpj, description, name, user }: ICreateCompanyDTO): Company {
-    const company = new Company();
-    Object.assign(company, { cnpj, description, name, user });
+  async list(userId: string): Promise<Company[]> {
+    const companies = await this.repository.find({ where: { user: userId } });
+    return companies;
+  }
 
-    this.companies.push(company);
+  async findCompanyByCnpj(cnpj: string): Promise<Company> {
+    const company = await this.repository.findOne({ where: { cnpj } });
     return company;
   }
 
-  list(userId: string): Company[] {
-    return this.companies.filter((company) => company.user === userId);
+  async findCompanyById(id: string): Promise<Company> {
+    const company = this.repository.findOne({ where: { id } });
+    return company;
   }
 
-  findCompanyByCnpj(cnpj: string): Company {
-    return this.companies.find((company) => company.cnpj === cnpj);
-  }
-
-  findCompanyById(id: string): Company {
-    return this.companies.find((company) => company.id === id);
-  }
-
-  delete(id: string): string {
-    const index = this.companies.findIndex((company) => company.id === id);
-    this.companies.splice(index, 1);
+  async delete(id: string): Promise<string> {
+    await this.repository.delete(id);
     return id;
   }
 
-  update({ description, name, id }: IUpdateCompanyDTO): Company {
-    const index = this.companies.findIndex((company) => company.id === id);
-    this.companies[index].description = description;
-    this.companies[index].name = name;
-    return this.companies[index];
+  async update({ description, name, id }: IUpdateCompanyDTO): Promise<Company> {
+    const company = await this.repository.save({
+      id,
+      name,
+      description,
+    });
+
+    return company;
   }
 }
 
