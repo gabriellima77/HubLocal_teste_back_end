@@ -1,4 +1,4 @@
-import { Company } from "../model/Company";
+import { Company } from "../entities/Company";
 
 interface ICreateCompanyDTO {
   name: string;
@@ -14,12 +14,12 @@ interface IUpdateCompanyDTO {
 }
 
 interface ICompaniesRepository {
-  create: (companyInfo: ICreateCompanyDTO) => Company;
-  list: (userId: string) => Company[];
-  findCompanyByCnpj: (cnpj: string) => Company;
-  findCompanyById: (id: string) => Company;
-  update: (update: IUpdateCompanyDTO) => Company;
-  delete: (id: string) => string;
+  create: (companyInfo: ICreateCompanyDTO) => Promise<void>;
+  list: (userId: string) => Promise<Company[]>;
+  findCompanyByCnpj: (cnpj: string) => Promise<Company>;
+  findCompanyById: (id: string) => Promise<Company>;
+  update: (update: IUpdateCompanyDTO) => Promise<Company>;
+  delete: (id: string) => Promise<string>;
 }
 
 export { ICompaniesRepository, ICreateCompanyDTO, IUpdateCompanyDTO };

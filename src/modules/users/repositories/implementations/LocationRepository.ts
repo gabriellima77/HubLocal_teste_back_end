@@ -1,4 +1,7 @@
-import { Location } from "../../model/Location";
+import { Repository } from "typeorm";
+
+import { dataSource } from "../../../../database";
+import { Location } from "../../entities/Location";
 import {
   ICreateLocationDTO,
   ILocationRepository,
@@ -6,53 +9,58 @@ import {
 } from "../ILocationRepository";
 
 class LocationRepository implements ILocationRepository {
-  private locations: Location[];
-  private static INSTANCE: LocationRepository;
+  private repository: Repository<Location>;
 
   constructor() {
-    this.locations = [];
+    this.repository = dataSource.getRepository(Location);
   }
 
-  public static getInstance(): LocationRepository {
-    if (!this.INSTANCE) {
-      this.INSTANCE = new LocationRepository();
-    }
-    return this.INSTANCE;
-  }
-
-  create({
+  async create({
     company,
     address,
     city,
     name,
     state,
-  }: ICreateLocationDTO): Location {
-    const location = new Location();
-    Object.assign(location, { address, city, name, state, company });
-    this.locations.push(location);
-    return location;
+  }: ICreateLocationDTO): Promise<void> {
+    const location = this.repository.create({
+      name,
+      address,
+      city,
+      state,
+      company,
+    });
+    await this.repository.save(location);
   }
 
-  list(company: string): Location[] {
-    const locations = this.locations.filter(
-      (location) => location.company === company
-    );
+  async list(company: string): Promise<Location[]> {
+    const locations = this.repository.find({ where: { company } });
     return locations;
   }
 
-  getLocation(id: string): Location {
-    return this.locations.find((location) => location.id === id);
+  async getLocation(id: string): Promise<Location> {
+    const location = await this.repository.findOne({ where: { id } });
+    return location;
   }
 
-  update({ address, city, name, state, id }: IUpdateLocationDTO): Location {
-    const index = this.locations.findIndex((location) => location.id === id);
-    Object.assign(this.locations[index], { address, city, name, state });
-    return this.locations[index];
+  async update({
+    address,
+    city,
+    name,
+    state,
+    id,
+  }: IUpdateLocationDTO): Promise<Location> {
+    const location = await this.repository.save({
+      id,
+      address,
+      city,
+      name,
+      state,
+    });
+    return location;
   }
 
-  delete(id: string): string {
-    const index = this.locations.findIndex((location) => location.id === id);
-    this.locations.splice(index, 1);
+  async delete(id: string): Promise<string> {
+    await this.repository.delete(id);
     return id;
   }
 }

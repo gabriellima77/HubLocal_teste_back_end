@@ -1,4 +1,4 @@
-import { User } from "../model/User";
+import { User } from "../entities/User";
 
 interface ICreateUserDTO {
   name: string;
@@ -13,11 +13,11 @@ interface IUpdateUserDTO {
 }
 
 interface IUserRepository {
-  create: (user: ICreateUserDTO) => User;
-  list: () => User[];
-  findByEmail: (email: string) => User;
-  findById: (id: string) => User;
-  update: (update: IUpdateUserDTO) => User;
+  create: (user: ICreateUserDTO) => Promise<void>;
+  list: () => Promise<User[]>;
+  findByEmail: (email: string) => Promise<User>;
+  findById: (id: string) => Promise<User>;
+  update: (update: IUpdateUserDTO) => Promise<User>;
 }
 
 export { IUserRepository, ICreateUserDTO, IUpdateUserDTO };
