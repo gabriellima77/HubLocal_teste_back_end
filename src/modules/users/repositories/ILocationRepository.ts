@@ -1,4 +1,4 @@
-import { Location } from "../model/Location";
+import { Location } from "../entities/Location";
 
 interface ICreateLocationDTO {
   company: string;
@@ -17,11 +17,11 @@ interface IUpdateLocationDTO {
 }
 
 interface ILocationRepository {
-  create: (createData: ICreateLocationDTO) => Location;
-  list: (company: string) => Location[];
-  getLocation: (id: string) => Location;
-  update: (update: IUpdateLocationDTO) => Location;
-  delete: (id: string) => string;
+  create: (createData: ICreateLocationDTO) => Promise<void>;
+  list: (company: string) => Promise<Location[]>;
+  getLocation: (id: string) => Promise<Location>;
+  update: (update: IUpdateLocationDTO) => Promise<Location>;
+  delete: (id: string) => Promise<string>;
 }
 
 export { ILocationRepository, ICreateLocationDTO, IUpdateLocationDTO };
