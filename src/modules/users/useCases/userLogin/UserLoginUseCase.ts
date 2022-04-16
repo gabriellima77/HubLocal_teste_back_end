@@ -1,3 +1,6 @@
+import { inject, injectable } from "tsyringe";
+
+import { User } from "../../entities/User";
 import { UserRepository } from "../../repositories/implementations/UserRepository";
 
 interface IRequest {
@@ -5,11 +8,15 @@ interface IRequest {
   password: string;
 }
 
+@injectable()
 class UserLoginUseCase {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    @inject("UserRepository")
+    private userRepository: UserRepository
+  ) {}
 
-  execute({ email, password }: IRequest) {
-    const user = this.userRepository.findByEmail(email);
+  async execute({ email, password }: IRequest): Promise<User> {
+    const user = await this.userRepository.findByEmail(email);
     if (!user) {
       throw new Error("Email or password are incorrect!");
     }

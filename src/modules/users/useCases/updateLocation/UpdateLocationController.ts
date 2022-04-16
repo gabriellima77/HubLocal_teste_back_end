@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 
 import { UpdateLocationUseCase } from "./UpdateLocationUseCase";
 
 class UpdateLocationController {
-  constructor(private updateLocationUseCase: UpdateLocationUseCase) {}
-
-  handle(request: Request, response: Response): Response {
+  async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const { name, address, city, state } = request.body;
     try {
-      const location = this.updateLocationUseCase.execute({
+      const updateLocationUseCase = container.resolve(UpdateLocationUseCase);
+      const location = await updateLocationUseCase.execute({
         name,
         address,
         city,

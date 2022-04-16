@@ -1,4 +1,5 @@
-import { User } from "../../model/User";
+import { inject, injectable } from "tsyringe";
+
 import { UserRepository } from "../../repositories/implementations/UserRepository";
 
 interface IRequest {
@@ -7,17 +8,20 @@ interface IRequest {
   password: string;
 }
 
+@injectable()
 class CreateUserUseCase {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    @inject("UserRepository")
+    private userRepository: UserRepository
+  ) {}
 
-  execute({ email, name, password }: IRequest): User {
-    const emailAlredyInUse = this.userRepository.findByEmail(email);
+  async execute({ email, name, password }: IRequest): Promise<void> {
+    const emailAlredyInUse = await this.userRepository.findByEmail(email);
     if (emailAlredyInUse) {
       throw new Error("Email alredy in use!");
     }
 
-    const user = this.userRepository.create({ email, name, password });
-    return user;
+    await this.userRepository.create({ email, name, password });
   }
 }
 

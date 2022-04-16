@@ -25,10 +25,10 @@ class Ticket {
   updated_at: Date;
 
   @Column({ unique: true })
-  created_by: User;
+  created_by: string;
 
   @Column({ unique: true })
-  service: User;
+  service: string;
 
   @Column()
   status: string;

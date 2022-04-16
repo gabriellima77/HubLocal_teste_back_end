@@ -8,7 +8,6 @@ import {
 } from "typeorm";
 
 import { Location } from "./Location";
-import { User } from "./User";
 
 @Entity()
 class Responsible {
@@ -16,22 +15,25 @@ class Responsible {
   id: string;
 
   @Column()
-  title: string;
+  name: string;
+
+  @Column()
+  phone: string;
+
+  @Column()
+  address: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  state: string;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  @Column({ unique: true })
-  created_by: User;
-
-  @Column({ unique: true })
-  service: User;
-
-  @Column()
-  status: string;
 
   @ManyToOne((type) => Location, (location) => location.responsible)
   location: Location;

@@ -1,3 +1,6 @@
+import { inject, injectable } from "tsyringe";
+
+import { Company } from "../../entities/Company";
 import { CompaniesRepository } from "../../repositories/implementations/CompaniesRepository";
 
 interface IRequest {
@@ -6,15 +9,23 @@ interface IRequest {
   id: string;
 }
 
+@injectable()
 class UpdateCompanyUseCase {
-  constructor(private companiesRepository: CompaniesRepository) {}
+  constructor(
+    @inject("CompaniesRepository")
+    private companiesRepository: CompaniesRepository
+  ) {}
 
-  execute({ name, description, id }: IRequest) {
-    const hasCompany = this.companiesRepository.findCompanyById(id);
+  async execute({ name, description, id }: IRequest): Promise<Company> {
+    const hasCompany = await this.companiesRepository.findCompanyById(id);
     if (!hasCompany) {
       throw new Error("Company doesn't exist!");
     }
-    const company = this.companiesRepository.update({ name, description, id });
+    const company = await this.companiesRepository.update({
+      description,
+      id,
+      name,
+    });
     return company;
   }
 }

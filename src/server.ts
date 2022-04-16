@@ -3,6 +3,7 @@ import express from "express";
 
 import { dataSource } from "./database";
 import { router } from "./routes";
+import "./shared/container";
 
 const startServer = () => {
   const app = express();
@@ -23,4 +24,4 @@ const startServer = () => {
 dataSource
   .initialize()
   .then(() => startServer())
-  .catch(() => console.log("Something went wrong connecting database!"));
+  .catch((error) => console.log(error));

@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 
 import { UpdateCompanyUseCase } from "./UpdateCompanyUseCase";
 
 class UpdateCompanyController {
-  constructor(private updateCompanyUseCase: UpdateCompanyUseCase) {}
-
-  handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     try {
       const { name, description } = request.body;
       const { id } = request.params;
-      const company = this.updateCompanyUseCase.execute({
+      const updateCompanyUseCase = container.resolve(UpdateCompanyUseCase);
+      const company = await updateCompanyUseCase.execute({
         name,
         description,
         id,

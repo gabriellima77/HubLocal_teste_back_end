@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 
 import { UserLoginUseCase } from "./UserLoginUseCase";
 
 class UserLoginController {
-  constructor(private userLoginUseCase: UserLoginUseCase) {}
-
-  handle(request: Request, response: Response): Response {
+  async handle(request: Request, response: Response): Promise<Response> {
     const { password, email } = request.body;
     try {
-      const user = this.userLoginUseCase.execute({ password, email });
+      const userLoginUseCase = container.resolve(UserLoginUseCase);
+      const user = await userLoginUseCase.execute({ password, email });
       return response.json(user);
     } catch (error) {
       return response.status(400).json({ error: error.message });
