@@ -1,26 +1,23 @@
 import { Router } from "express";
 
-import { createLocationController } from "../modules/users/useCases/createLocation";
-import { deleteLocationController } from "../modules/users/useCases/deleteLocation";
-import { listLocationsController } from "../modules/users/useCases/listLocations";
-import { updateLocationController } from "../modules/users/useCases/updateLocation";
+import { CreateLocationController } from "../modules/users/useCases/createLocation/CreateLocationController";
+import { DeleteLocationController } from "../modules/users/useCases/deleteLocation/DeleteLocationController";
+import { ListLocationsController } from "../modules/users/useCases/listLocations/ListLocationsController";
+import { UpdateLocationController } from "../modules/users/useCases/updateLocation/UpdateLocationController";
 
 const locaisRouter = Router();
 
-locaisRouter.get("/", (request, response) => {
-  return listLocationsController.handle(request, response);
-});
+const createLocationController = new CreateLocationController();
+const deleteLocationController = new DeleteLocationController();
+const listLocationsController = new ListLocationsController();
+const updateLocationController = new UpdateLocationController();
 
-locaisRouter.post("/", (request, response) => {
-  return createLocationController.handle(request, response);
-});
+locaisRouter.get("/", listLocationsController.handle);
 
-locaisRouter.put("/:id", (request, response) => {
-  return updateLocationController.handle(request, response);
-});
+locaisRouter.post("/", createLocationController.handle);
 
-locaisRouter.delete("/:id", (request, response) => {
-  return deleteLocationController.handle(request, response);
-});
+locaisRouter.put("/:id", updateLocationController.handle);
+
+locaisRouter.delete("/:id", deleteLocationController.handle);
 
 export { locaisRouter };

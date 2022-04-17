@@ -1,40 +1,37 @@
 import { Router } from "express";
 
 import { CompaniesRepository } from "../modules/users/repositories/implementations/CompaniesRepository";
-import { createCompanyController } from "../modules/users/useCases/createCompany";
-import { deleteCompanyController } from "../modules/users/useCases/deleteCompany";
-import { listCompaniesController } from "../modules/users/useCases/listCompany";
-import { updateCompanyController } from "../modules/users/useCases/updateCompany";
+import { CreateCompanyController } from "../modules/users/useCases/createCompany/CreateCompanyController";
+import { DeleteCompanyController } from "../modules/users/useCases/deleteCompany/DeleteCompanyController";
+import { ListCompaniesController } from "../modules/users/useCases/listCompany/ListCompaniesController";
+import { UpdateCompanyController } from "../modules/users/useCases/updateCompany/UpdateCompanyController";
 import { locaisRouter } from "./locais.routes";
 
 const empresasRouter = Router();
 
 function checkIfCompanyExists(request, response, next) {
   const { company_id } = request.headers;
-  const companyRepository = CompaniesRepository.getInstance();
-  const existCompany = companyRepository.findCompanyById(String(company_id));
-  if (!existCompany) {
+  const repository = new CompaniesRepository();
+  const company = repository.findCompanyById(company_id);
+  if (!company) {
     return response.status(400).json({ error: "Company doesn't exist!" });
   }
-  request.company = existCompany;
+  request.company = company;
   return next();
 }
 
-empresasRouter.get("/", (request, response) => {
-  return listCompaniesController.handle(request, response);
-});
+const createCompanyController = new CreateCompanyController();
+const deleteCompanyController = new DeleteCompanyController();
+const listCompaniesController = new ListCompaniesController();
+const updateCompanyController = new UpdateCompanyController();
 
-empresasRouter.post("/", (request, response) => {
-  return createCompanyController.handle(request, response);
-});
+empresasRouter.get("/", listCompaniesController.handle);
 
-empresasRouter.put("/:id", (request, response) => {
-  return updateCompanyController.handle(request, response);
-});
+empresasRouter.post("/", createCompanyController.handle);
 
-empresasRouter.delete("/:id", (request, response) => {
-  return deleteCompanyController.handle(request, response);
-});
+empresasRouter.put("/:id", updateCompanyController.handle);
+
+empresasRouter.delete("/:id", deleteCompanyController.handle);
 
 empresasRouter.use(checkIfCompanyExists);
 empresasRouter.use("/locais", locaisRouter);

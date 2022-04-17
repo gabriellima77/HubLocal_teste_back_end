@@ -1,4 +1,5 @@
-import { Location } from "../../model/Location";
+import { inject, injectable } from "tsyringe";
+
 import { LocationRepository } from "../../repositories/implementations/LocationRepository";
 
 interface IRequest {
@@ -9,19 +10,27 @@ interface IRequest {
   company: string;
 }
 
+@injectable()
 class CreateLocationUseCase {
-  constructor(private locationRepository: LocationRepository) {}
+  constructor(
+    @inject("LocationRepository")
+    private locationRepository: LocationRepository
+  ) {}
 
-  execute({ name, address, city, state, company }: IRequest): Location {
-    const location = this.locationRepository.create({
+  async execute({
+    name,
+    address,
+    city,
+    state,
+    company,
+  }: IRequest): Promise<void> {
+    await this.locationRepository.create({
       name,
       address,
       city,
       state,
       company,
     });
-
-    return location;
   }
 }
 

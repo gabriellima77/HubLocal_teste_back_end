@@ -1,33 +1,30 @@
 import { Router } from "express";
 
 import { UserRepository } from "../modules/users/repositories/implementations/UserRepository";
-import { createUserController } from "../modules/users/useCases/createUser";
-import { userLoginController } from "../modules/users/useCases/userLogin";
+import { CreateUserController } from "../modules/users/useCases/createUser/CreateUserController";
+import { UserLoginController } from "../modules/users/useCases/userLogin/UserLoginController";
 import { empresasRouter } from "./empresas.routes";
 
 const usersRouter = Router();
 
 function checkIfUserExists(request, response, next) {
   const { user_id } = request.headers;
-  const users = UserRepository.getInstace();
-  const userExists = users.findById(String(user_id));
-  if (!userExists) {
+  const repository = new UserRepository();
+  const user = repository.findById(user_id);
+  if (!user) {
     return response.status(400).json({ error: "User doesn't exist!" });
   }
 
-  request.user = userExists;
+  request.user = user;
   return next();
 }
 
-usersRouter.use("/empresas", checkIfUserExists, empresasRouter);
+const userLoginController = new UserLoginController();
+const createUserController = new CreateUserController();
 
-usersRouter.post("/login", (request, response) => {
-  return userLoginController.handle(request, response);
-});
+usersRouter.post("/login", userLoginController.handle);
 
-usersRouter.post("/signup", (request, response) => {
-  return createUserController.handle(request, response);
-});
+usersRouter.post("/signup", createUserController.handle);
 
 usersRouter.get("/logout", checkIfUserExists, (request, response) => {
   response.end();

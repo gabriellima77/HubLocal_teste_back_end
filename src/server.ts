@@ -3,6 +3,7 @@ import express from "express";
 
 import { dataSource } from "./database";
 import { router } from "./routes";
+import "./shared/container";
 
 const startServer = () => {
   const app = express();
@@ -15,7 +16,7 @@ const startServer = () => {
 
   app.use(express.json());
 
-  app.use("/api", router);
+  app.use("/", router);
 
   app.listen(3333, () => console.log("Server is running in port: 3333"));
 };
@@ -23,4 +24,4 @@ const startServer = () => {
 dataSource
   .initialize()
   .then(() => startServer())
-  .catch(() => console.log("Something went wrong connecting database!"));
+  .catch((error) => console.log(error));

@@ -1,3 +1,6 @@
+import { inject, injectable } from "tsyringe";
+
+import { Location } from "../../entities/Location";
 import { LocationRepository } from "../../repositories/implementations/LocationRepository";
 
 interface IRequest {
@@ -8,15 +11,25 @@ interface IRequest {
   state: string;
 }
 
+@injectable()
 class UpdateLocationUseCase {
-  constructor(private locationsRepository: LocationRepository) {}
+  constructor(
+    @inject("LocationRepository")
+    private locationsRepository: LocationRepository
+  ) {}
 
-  execute({ address, city, name, state, id }: IRequest) {
-    const locationExists = this.locationsRepository.getLocation(id);
+  async execute({
+    address,
+    city,
+    name,
+    state,
+    id,
+  }: IRequest): Promise<Location> {
+    const locationExists = await this.locationsRepository.getLocation(id);
     if (!locationExists) {
       throw new Error("Location doesn't exists!");
     }
-    const location = this.locationsRepository.update({
+    const location = await this.locationsRepository.update({
       address,
       city,
       name,

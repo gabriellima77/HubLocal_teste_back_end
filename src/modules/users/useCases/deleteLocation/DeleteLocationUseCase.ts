@@ -1,15 +1,21 @@
+import { inject, injectable } from "tsyringe";
+
 import { LocationRepository } from "../../repositories/implementations/LocationRepository";
 
+@injectable()
 class DeleteLocationUseCase {
-  constructor(private locationsRepository: LocationRepository) {}
+  constructor(
+    @inject("LocationRepository")
+    private locationsRepository: LocationRepository
+  ) {}
 
-  execute(id: string) {
-    const locationExists = this.locationsRepository.getLocation(id);
+  async execute(id: string): Promise<string> {
+    const locationExists = await this.locationsRepository.getLocation(id);
     if (!locationExists) {
       throw new Error("Location doesn't exists!");
     }
-
-    return this.locationsRepository.delete(id);
+    const deletedId = await this.locationsRepository.delete(id);
+    return deletedId;
   }
 }
 
