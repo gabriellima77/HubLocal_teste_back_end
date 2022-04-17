@@ -2,8 +2,8 @@ import { Router } from "express";
 
 import { UserRepository } from "../modules/users/repositories/implementations/UserRepository";
 import { CreateUserController } from "../modules/users/useCases/createUser/CreateUserController";
+import { UserAuthenticatedController } from "../modules/users/useCases/userAuthenticated/UserAuthenticatedController";
 import { UserLoginController } from "../modules/users/useCases/userLogin/UserLoginController";
-import { empresasRouter } from "./empresas.routes";
 
 const usersRouter = Router();
 
@@ -21,13 +21,12 @@ function checkIfUserExists(request, response, next) {
 
 const userLoginController = new UserLoginController();
 const createUserController = new CreateUserController();
+const userAuthenticatedController = new UserAuthenticatedController();
 
 usersRouter.post("/login", userLoginController.handle);
 
 usersRouter.post("/signup", createUserController.handle);
 
-usersRouter.get("/logout", checkIfUserExists, (request, response) => {
-  response.end();
-});
+usersRouter.post("/getUserByToken", userAuthenticatedController.handle);
 
 export { usersRouter };

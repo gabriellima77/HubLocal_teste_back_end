@@ -5,9 +5,9 @@ import { ListCompaniesUseCase } from "./ListCompaniesUseCase";
 
 class ListCompaniesController {
   async handle(request, response: Response): Promise<Response> {
-    const { id } = request.user;
+    const { user } = request;
     const listCompaniesUseCase = container.resolve(ListCompaniesUseCase);
-    const companies = await listCompaniesUseCase.execute(id);
+    const companies = await listCompaniesUseCase.execute(user);
     return response.json(companies);
   }
 }
