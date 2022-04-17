@@ -13,7 +13,7 @@ interface IUpdateUserDTO {
 }
 
 interface IUserRepository {
-  create: (user: ICreateUserDTO) => Promise<void>;
+  create: (user: ICreateUserDTO) => Promise<User>;
   list: () => Promise<User[]>;
   findByEmail: (email: string) => Promise<User>;
   findById: (id: string) => Promise<User>;

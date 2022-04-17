@@ -8,8 +8,8 @@ class CreateUserController {
     const { email, password, name } = request.body;
     try {
       const createUserUseCase = container.resolve(CreateUserUseCase);
-      await createUserUseCase.execute({ name, password, email });
-      return response.status(201).send();
+      const token = await createUserUseCase.execute({ name, password, email });
+      return response.status(201).json(token);
     } catch (error) {
       return response.status(400).json({ error: error.message });
     }

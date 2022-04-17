@@ -8,8 +8,8 @@ class UserLoginController {
     const { password, email } = request.body;
     try {
       const userLoginUseCase = container.resolve(UserLoginUseCase);
-      const user = await userLoginUseCase.execute({ password, email });
-      return response.json(user);
+      const token = await userLoginUseCase.execute({ password, email });
+      return response.json(token);
     } catch (error) {
       return response.status(400).json({ error: error.message });
     }

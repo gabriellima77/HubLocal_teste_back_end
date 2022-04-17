@@ -22,8 +22,6 @@ function checkIfUserExists(request, response, next) {
 const userLoginController = new UserLoginController();
 const createUserController = new CreateUserController();
 
-usersRouter.use("/empresas", checkIfUserExists, empresasRouter);
-
 usersRouter.post("/login", userLoginController.handle);
 
 usersRouter.post("/signup", createUserController.handle);
