@@ -15,7 +15,6 @@ class CreateCompanyController {
         name,
         user,
       });
-      console.log(1);
       return response.status(201).send();
     } catch (error) {
       console.log(error);

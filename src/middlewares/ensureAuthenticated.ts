@@ -30,7 +30,7 @@ export async function ensureAuthenticated(
     if (!user) {
       return response.status(401).json({ error: "User doesn't exist!" });
     }
-    request.user = user_id;
+    request.user = user;
     return next();
   } catch {
     return response.status(401).json({ error: "Invalid token!" });

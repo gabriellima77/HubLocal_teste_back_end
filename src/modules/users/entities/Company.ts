@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryColumn,
@@ -26,10 +27,14 @@ class Company {
   @Column()
   description: string;
 
-  @ManyToOne((type) => User, (user) => user.companies)
-  user: string;
+  @ManyToOne(() => User, (user) => user.companies)
+  @JoinColumn()
+  user: User;
 
-  @OneToMany((type) => Location, (location) => location.company)
+  @Column({ type: "uuid" })
+  userId: string;
+
+  @OneToMany(() => Location, (location) => location.company)
   locations: Location[];
 
   @CreateDateColumn()

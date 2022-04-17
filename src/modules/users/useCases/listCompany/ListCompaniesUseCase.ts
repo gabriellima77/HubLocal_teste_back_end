@@ -10,8 +10,8 @@ class ListCompaniesUseCase {
     private companiesRepository: CompaniesRepository
   ) {}
 
-  async execute(user_id: string): Promise<Company[]> {
-    const companies = await this.companiesRepository.list(user_id);
+  async execute(user: string): Promise<Company[]> {
+    const companies = await this.companiesRepository.list(user);
     return companies;
   }
 }
