@@ -1,12 +1,13 @@
 import { inject, injectable } from "tsyringe";
 
+import { User } from "../../entities/User";
 import { CompaniesRepository } from "../../repositories/implementations/CompaniesRepository";
 
 interface IRequest {
   name: string;
   cnpj: string;
   description: string;
-  user: string;
+  user: User;
 }
 
 @injectable()

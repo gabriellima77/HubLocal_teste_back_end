@@ -5,10 +5,20 @@ import { ListCompaniesUseCase } from "./ListCompaniesUseCase";
 
 class ListCompaniesController {
   async handle(request, response: Response): Promise<Response> {
-    const { id } = request.user;
+    const { user } = request;
     const listCompaniesUseCase = container.resolve(ListCompaniesUseCase);
-    const companies = await listCompaniesUseCase.execute(id);
-    return response.json(companies);
+    const companies = await listCompaniesUseCase.execute(user.id);
+    const filteredCompanies = companies.map(
+      ({ name, cnpj, description, id }) => {
+        return {
+          name,
+          cnpj,
+          description,
+          id,
+        };
+      }
+    );
+    return response.json(filteredCompanies);
   }
 }
 

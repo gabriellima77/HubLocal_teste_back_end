@@ -1,10 +1,11 @@
 import { Company } from "../entities/Company";
+import { User } from "../entities/User";
 
 interface ICreateCompanyDTO {
   name: string;
   cnpj: string;
   description: string;
-  user: string;
+  user: User;
 }
 
 interface IUpdateCompanyDTO {

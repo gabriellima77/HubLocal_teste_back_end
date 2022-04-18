@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 
 import { dataSource } from "../../../../database";
 import { Company } from "../../entities/Company";
+import { User } from "../../entities/User";
 import {
   ICompaniesRepository,
   ICreateCompanyDTO,
@@ -31,7 +32,9 @@ class CompaniesRepository implements ICompaniesRepository {
   }
 
   async list(userId: string): Promise<Company[]> {
-    const companies = await this.repository.find({ where: { user: userId } });
+    const companies = await this.repository.find({
+      where: { userId },
+    });
     return companies;
   }
 

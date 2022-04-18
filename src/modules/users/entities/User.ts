@@ -24,7 +24,7 @@ class User {
   @Column()
   password: string;
 
-  @OneToMany((type) => Company, (company) => company.user)
+  @OneToMany(() => Company, (company) => company.user)
   companies: Company[];
 
   @CreateDateColumn()
