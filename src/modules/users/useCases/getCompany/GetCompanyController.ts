@@ -11,3 +11,5 @@ class GetCompanyController {
     return response.json({ id, name, description, cnpj });
   }
 }
+
+export { GetCompanyController };
