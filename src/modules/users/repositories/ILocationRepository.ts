@@ -1,7 +1,8 @@
+import { Company } from "../entities/Company";
 import { Location } from "../entities/Location";
 
 interface ICreateLocationDTO {
-  company: string;
+  company: Company;
   name: string;
   address: string;
   city: string;

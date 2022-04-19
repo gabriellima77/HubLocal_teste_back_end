@@ -15,7 +15,7 @@ class CreateLocationController {
         city,
         name,
         state,
-        company: company.id,
+        company,
       });
       return response.status(201).send();
     } catch (error) {

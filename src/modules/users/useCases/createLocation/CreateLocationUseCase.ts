@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
+import { Company } from "../../entities/Company";
 import { LocationRepository } from "../../repositories/implementations/LocationRepository";
 
 interface IRequest {
@@ -7,7 +8,7 @@ interface IRequest {
   address: string;
   city: string;
   state: string;
-  company: string;
+  company: Company;
 }
 
 @injectable()
