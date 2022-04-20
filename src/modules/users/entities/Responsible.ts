@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from "typeorm";
+import { v4 as uuidV4 } from "uuid";
 
 import { Location } from "./Location";
 
@@ -29,14 +31,25 @@ class Responsible {
   @Column()
   state: string;
 
+  @ManyToOne(() => Location, (location) => location.responsible)
+  @JoinColumn()
+  location: Location;
+
+  @Column({ type: "uuid" })
+  locationId: string;
+
+  @Column()
+  isMain: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne((type) => Location, (location) => location.responsible)
-  location: Location;
+  constructor() {
+    this.id = uuidV4();
+  }
 }
 
 export { Responsible };

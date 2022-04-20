@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { User } from "../../entities/User";
-import { CompaniesRepository } from "../../repositories/implementations/CompaniesRepository";
+import { ICompaniesRepository } from "../../repositories/ICompaniesRepository";
 
 interface IRequest {
   name: string;
@@ -14,22 +14,24 @@ interface IRequest {
 class CreateCompanyUseCase {
   constructor(
     @inject("CompaniesRepository")
-    private companiesRepository: CompaniesRepository
+    private companiesRepository: ICompaniesRepository
   ) {}
 
-  async execute({ name, cnpj, description, user }: IRequest): Promise<void> {
+  async execute({ name, cnpj, description, user }: IRequest): Promise<string> {
     const hasCompanyWithSameCnpj =
       await this.companiesRepository.findCompanyByCnpj(cnpj);
     if (hasCompanyWithSameCnpj) {
       throw new Error("Company with this CNPJ alredy exists!");
     }
 
-    await this.companiesRepository.create({
+    const id = await this.companiesRepository.create({
       name,
       cnpj,
       description,
       user,
     });
+
+    return id;
   }
 }
 

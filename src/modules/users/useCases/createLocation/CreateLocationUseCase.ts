@@ -24,14 +24,16 @@ class CreateLocationUseCase {
     city,
     state,
     company,
-  }: IRequest): Promise<void> {
-    await this.locationRepository.create({
+  }: IRequest): Promise<string> {
+    const id = await this.locationRepository.create({
       name,
       address,
       city,
       state,
       company,
     });
+
+    return id;
   }
 }
 

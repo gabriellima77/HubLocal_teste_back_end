@@ -18,7 +18,7 @@ interface IUpdateLocationDTO {
 }
 
 interface ILocationRepository {
-  create: (createData: ICreateLocationDTO) => Promise<void>;
+  create: (createData: ICreateLocationDTO) => Promise<string>;
   list: (company: string) => Promise<Location[]>;
   getLocation: (id: string) => Promise<Location>;
   update: (update: IUpdateLocationDTO) => Promise<Location>;
