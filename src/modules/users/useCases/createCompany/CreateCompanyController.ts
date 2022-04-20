@@ -17,7 +17,6 @@ class CreateCompanyController {
       });
       return response.status(201).json({ id });
     } catch (error) {
-      console.log(error);
       return response.status(400).json({ error: error.message });
     }
   }
