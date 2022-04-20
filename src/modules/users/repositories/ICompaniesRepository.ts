@@ -15,7 +15,7 @@ interface IUpdateCompanyDTO {
 }
 
 interface ICompaniesRepository {
-  create: (companyInfo: ICreateCompanyDTO) => Promise<void>;
+  create: (companyInfo: ICreateCompanyDTO) => Promise<string>;
   list: (userId: string) => Promise<Company[]>;
   findCompanyByCnpj: (cnpj: string) => Promise<Company>;
   findCompanyById: (id: string) => Promise<Company>;

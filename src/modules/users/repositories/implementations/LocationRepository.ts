@@ -21,7 +21,7 @@ class LocationRepository implements ILocationRepository {
     city,
     name,
     state,
-  }: ICreateLocationDTO): Promise<void> {
+  }: ICreateLocationDTO): Promise<string> {
     const location = this.repository.create({
       name,
       address,
@@ -29,7 +29,8 @@ class LocationRepository implements ILocationRepository {
       state,
       company,
     });
-    await this.repository.save(location);
+    const { id } = await this.repository.save(location);
+    return id;
   }
 
   async list(company: string): Promise<Location[]> {
