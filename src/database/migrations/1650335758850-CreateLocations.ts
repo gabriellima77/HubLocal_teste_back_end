@@ -5,11 +5,11 @@ import {
   TableForeignKey,
 } from "typeorm";
 
-export class CreateCompanies1650229849067 implements MigrationInterface {
+export class CreateLocations1650335758850 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "companies",
+        name: "locations",
         columns: [
           {
             name: "id",
@@ -21,16 +21,19 @@ export class CreateCompanies1650229849067 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "description",
+            name: "address",
             type: "varchar",
           },
           {
-            name: "cnpj",
+            name: "city",
             type: "varchar",
-            isUnique: true,
           },
           {
-            name: "userId",
+            name: "state",
+            type: "varchar",
+          },
+          {
+            name: "companyId",
             type: "uuid",
           },
           {
@@ -48,10 +51,10 @@ export class CreateCompanies1650229849067 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      "companies",
+      "locations",
       new TableForeignKey({
-        columnNames: ["userId"],
-        referencedTableName: "users",
+        columnNames: ["companyId"],
+        referencedTableName: "companies",
         referencedColumnNames: ["id"],
         onDelete: "CASCADE",
       })
@@ -59,11 +62,11 @@ export class CreateCompanies1650229849067 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const table = await queryRunner.getTable("companies");
+    const table = await queryRunner.getTable("locations");
     const foreignKey = table.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf("userId") !== -1
+      (fk) => fk.columnNames.indexOf("companyId") !== -1
     );
-    await queryRunner.dropForeignKey("companies", foreignKey);
-    await queryRunner.dropTable("companies");
+    await queryRunner.dropForeignKey("locations", foreignKey);
+    await queryRunner.dropTable("locations");
   }
 }

@@ -33,7 +33,7 @@ class LocationRepository implements ILocationRepository {
   }
 
   async list(company: string): Promise<Location[]> {
-    const locations = this.repository.find({ where: { company } });
+    const locations = this.repository.find({ where: { companyId: company } });
     return locations;
   }
 
