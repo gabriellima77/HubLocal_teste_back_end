@@ -10,14 +10,14 @@ class CreateLocationController {
     try {
       const createLocationUseCase = container.resolve(CreateLocationUseCase);
 
-      await createLocationUseCase.execute({
+      const id = await createLocationUseCase.execute({
         address,
         city,
         name,
         state,
         company,
       });
-      return response.status(201).send();
+      return response.status(201).json({ id });
     } catch (error) {
       return response.status(400).json({ error: error.message });
     }

@@ -9,13 +9,13 @@ class CreateCompanyController {
     const { user } = request;
     try {
       const createCompanyUseCase = container.resolve(CreateCompanyUseCase);
-      await createCompanyUseCase.execute({
+      const id = await createCompanyUseCase.execute({
         cnpj,
         description,
         name,
         user,
       });
-      return response.status(201).send();
+      return response.status(201).json({ id });
     } catch (error) {
       console.log(error);
       return response.status(400).json({ error: error.message });

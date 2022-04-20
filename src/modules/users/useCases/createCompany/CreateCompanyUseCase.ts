@@ -17,19 +17,21 @@ class CreateCompanyUseCase {
     private companiesRepository: CompaniesRepository
   ) {}
 
-  async execute({ name, cnpj, description, user }: IRequest): Promise<void> {
+  async execute({ name, cnpj, description, user }: IRequest): Promise<string> {
     const hasCompanyWithSameCnpj =
       await this.companiesRepository.findCompanyByCnpj(cnpj);
     if (hasCompanyWithSameCnpj) {
       throw new Error("Company with this CNPJ alredy exists!");
     }
 
-    await this.companiesRepository.create({
+    const id = await this.companiesRepository.create({
       name,
       cnpj,
       description,
       user,
     });
+
+    return id;
   }
 }
 
