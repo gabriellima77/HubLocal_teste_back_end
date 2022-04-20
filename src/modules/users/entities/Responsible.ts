@@ -7,6 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from "typeorm";
+import { v4 as uuidV4 } from "uuid";
 
 import { Location } from "./Location";
 
@@ -30,7 +31,7 @@ class Responsible {
   @Column()
   state: string;
 
-  @ManyToOne((type) => Location, (location) => location.responsible)
+  @ManyToOne(() => Location, (location) => location.responsible)
   @JoinColumn()
   location: Location;
 
@@ -45,6 +46,10 @@ class Responsible {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  constructor() {
+    this.id = uuidV4();
+  }
 }
 
 export { Responsible };

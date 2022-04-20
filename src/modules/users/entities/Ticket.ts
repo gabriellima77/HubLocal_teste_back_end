@@ -6,6 +6,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { v4 as uuidV4 } from "uuid";
 
 import { Location } from "./Location";
 import { User } from "./User";
@@ -33,8 +34,12 @@ class Ticket {
   @Column()
   status: string;
 
-  @ManyToOne((type) => Location, (location) => location.tickets)
+  @ManyToOne(() => Location, (location) => location.tickets)
   location: Location;
+
+  constructor() {
+    this.id = uuidV4();
+  }
 }
 
 export { Ticket };
