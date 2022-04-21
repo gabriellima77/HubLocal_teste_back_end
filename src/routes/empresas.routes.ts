@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import { CreateCompanyController } from "../modules/users/useCases/createCompany/CreateCompanyController";
-import { DeleteCompanyController } from "../modules/users/useCases/deleteCompany/DeleteCompanyController";
-import { GetCompanyController } from "../modules/users/useCases/getCompany/GetCompanyController";
-import { ListCompaniesController } from "../modules/users/useCases/listCompany/ListCompaniesController";
-import { UpdateCompanyController } from "../modules/users/useCases/updateCompany/UpdateCompanyController";
+import { CreateCompanyController } from "../modules/users/useCases/company/createCompany/CreateCompanyController";
+import { DeleteCompanyController } from "../modules/users/useCases/company/deleteCompany/DeleteCompanyController";
+import { GetCompanyController } from "../modules/users/useCases/company/getCompany/GetCompanyController";
+import { ListCompaniesController } from "../modules/users/useCases/company/listCompany/ListCompaniesController";
+import { UpdateCompanyController } from "../modules/users/useCases/company/updateCompany/UpdateCompanyController";
 
 const empresasRouter = Router();
 

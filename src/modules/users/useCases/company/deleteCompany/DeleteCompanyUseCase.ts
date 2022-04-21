@@ -1,12 +1,12 @@
 import { inject, injectable } from "tsyringe";
 
-import { CompaniesRepository } from "../../repositories/implementations/CompaniesRepository";
+import { ICompaniesRepository } from "../../../repositories/ICompaniesRepository";
 
 @injectable()
 class DeleteCompanyUseCase {
   constructor(
     @inject("CompaniesRepository")
-    private companiesRepository: CompaniesRepository
+    private companiesRepository: ICompaniesRepository
   ) {}
 
   async execute(id: string): Promise<string> {

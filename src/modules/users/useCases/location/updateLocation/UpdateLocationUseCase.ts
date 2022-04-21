@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
-import { Location } from "../../entities/Location";
-import { LocationRepository } from "../../repositories/implementations/LocationRepository";
+import { Location } from "../../../entities/Location";
+import { ILocationRepository } from "../../../repositories/ILocationRepository";
 
 interface IRequest {
   id: string;
@@ -15,7 +15,7 @@ interface IRequest {
 class UpdateLocationUseCase {
   constructor(
     @inject("LocationRepository")
-    private locationsRepository: LocationRepository
+    private locationsRepository: ILocationRepository
   ) {}
 
   async execute({

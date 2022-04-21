@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
-import { Company } from "../../entities/Company";
-import { CompaniesRepository } from "../../repositories/implementations/CompaniesRepository";
+import { Company } from "../../../entities/Company";
+import { ICompaniesRepository } from "../../../repositories/ICompaniesRepository";
 
 interface IRequest {
   name: string;
@@ -13,7 +13,7 @@ interface IRequest {
 class UpdateCompanyUseCase {
   constructor(
     @inject("CompaniesRepository")
-    private companiesRepository: CompaniesRepository
+    private companiesRepository: ICompaniesRepository
   ) {}
 
   async execute({ name, description, id }: IRequest): Promise<Company> {

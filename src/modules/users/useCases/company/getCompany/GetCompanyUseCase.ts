@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
-import { Company } from "../../entities/Company";
-import { ICompaniesRepository } from "../../repositories/ICompaniesRepository";
+import { Company } from "../../../entities/Company";
+import { ICompaniesRepository } from "../../../repositories/ICompaniesRepository";
 
 @injectable()
 class GetCompanyUseCase {

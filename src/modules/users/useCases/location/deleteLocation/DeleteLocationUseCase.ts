@@ -1,12 +1,12 @@
 import { inject, injectable } from "tsyringe";
 
-import { LocationRepository } from "../../repositories/implementations/LocationRepository";
+import { ILocationRepository } from "../../../repositories/ILocationRepository";
 
 @injectable()
 class DeleteLocationUseCase {
   constructor(
     @inject("LocationRepository")
-    private locationsRepository: LocationRepository
+    private locationsRepository: ILocationRepository
   ) {}
 
   async execute(id: string): Promise<string> {

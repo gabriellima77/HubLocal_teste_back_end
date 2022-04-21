@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
-import { Location } from "../../entities/Location";
-import { IResponsibleRepository } from "../../repositories/IResponsibleRepository";
+import { Location } from "../../../entities/Location";
+import { IResponsibleRepository } from "../../../repositories/IResponsibleRepository";
 
 interface IRequest {
   name: string;

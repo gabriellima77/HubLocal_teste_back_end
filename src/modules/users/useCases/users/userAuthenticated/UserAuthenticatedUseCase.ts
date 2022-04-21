@@ -1,8 +1,7 @@
 import { verify } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
-import { User } from "../../entities/User";
-import { IUserRepository } from "../../repositories/IUserRepository";
+import { IUserRepository } from "../../../repositories/IUserRepository";
 
 interface IResponse {
   name: string;
