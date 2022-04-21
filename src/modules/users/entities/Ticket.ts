@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
@@ -9,7 +10,6 @@ import {
 import { v4 as uuidV4 } from "uuid";
 
 import { Location } from "./Location";
-import { User } from "./User";
 
 @Entity("tickets")
 class Ticket {
@@ -25,20 +25,29 @@ class Ticket {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column({ unique: true })
+  @Column()
   created_by: string;
 
-  @Column({ unique: true })
-  service: string;
-
   @Column()
+  will_solve: string;
+
+  @Column({
+    type: "enum",
+    enum: ["pendente", "progresso", "concluido"],
+    default: "pendente",
+  })
   status: string;
 
   @ManyToOne(() => Location, (location) => location.tickets)
+  @JoinColumn()
   location: Location;
 
-  constructor() {
+  @Column({ type: "uuid" })
+  locationId: string;
+
+  constructor(locationName: string) {
     this.id = uuidV4();
+    this.title = this.id + locationName;
   }
 }
 
