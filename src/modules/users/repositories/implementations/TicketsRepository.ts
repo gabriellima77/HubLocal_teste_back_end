@@ -42,6 +42,15 @@ class TicketsRepository implements ITicketsRepository {
     return tickets;
   }
 
+  async listLocationTickets(location: string): Promise<Ticket[]> {
+    const tickets = await this.respository.find({
+      where: {
+        locationId: location,
+      },
+    });
+    return tickets;
+  }
+
   async getTicket(id: string): Promise<Ticket> {
     const ticket = await this.respository.findOne({ where: { id } });
     return ticket;

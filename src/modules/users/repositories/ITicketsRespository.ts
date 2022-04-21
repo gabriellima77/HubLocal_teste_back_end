@@ -16,7 +16,8 @@ interface IUpdateTicketDTO {
 
 interface ITicketsRepository {
   create(createData: ICreateTicketDTO): Promise<void>;
-  list(location: string): Promise<Ticket[]>;
+  list(company: string): Promise<Ticket[]>;
+  listLocationTickets(location: string): Promise<Ticket[]>;
   getTicket(id: string): Promise<Ticket>;
   update(updateData: IUpdateTicketDTO): Promise<Ticket>;
   delete(id: string): Promise<string>;
