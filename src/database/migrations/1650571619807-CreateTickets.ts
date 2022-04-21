@@ -69,7 +69,7 @@ export class CreateTickets1650571619807 implements MigrationInterface {
       "tickets",
       new TableForeignKey({
         columnNames: ["companyId"],
-        referencedTableName: "company",
+        referencedTableName: "companies",
         referencedColumnNames: ["id"],
         onDelete: "CASCADE",
       })

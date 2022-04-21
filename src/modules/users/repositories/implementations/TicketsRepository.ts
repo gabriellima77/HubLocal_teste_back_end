@@ -26,6 +26,7 @@ class TicketsRepository implements ITicketsRepository {
       location,
       company,
       will_solve,
+      status: "pendente",
     });
     ticket.title = ticket.id + location.name;
     console.log(ticket);
@@ -56,3 +57,5 @@ class TicketsRepository implements ITicketsRepository {
     return id;
   }
 }
+
+export { TicketsRepository };
