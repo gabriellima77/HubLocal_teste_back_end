@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
+import { Company } from "./Company";
 import { Location } from "./Location";
 
 @Entity("tickets")
@@ -45,9 +46,15 @@ class Ticket {
   @Column({ type: "uuid" })
   locationId: string;
 
-  constructor(locationName: string) {
+  @ManyToOne(() => Company, (company) => company.tickets)
+  @JoinColumn()
+  company: Location;
+
+  @Column({ type: "uuid" })
+  companyId: string;
+
+  constructor() {
     this.id = uuidV4();
-    this.title = this.id + locationName;
   }
 }
 

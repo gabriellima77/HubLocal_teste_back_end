@@ -38,6 +38,10 @@ export class CreateTickets1650571619807 implements MigrationInterface {
             type: "uuid",
           },
           {
+            name: "companyId",
+            type: "uuid",
+          },
+          {
             name: "created_at",
             type: "timestamp",
             default: "now()",
@@ -60,12 +64,26 @@ export class CreateTickets1650571619807 implements MigrationInterface {
         onDelete: "CASCADE",
       })
     );
+
+    await queryRunner.createForeignKey(
+      "tickets",
+      new TableForeignKey({
+        columnNames: ["companyId"],
+        referencedTableName: "company",
+        referencedColumnNames: ["id"],
+        onDelete: "CASCADE",
+      })
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     const table = await queryRunner.getTable("tickets");
-    const foreignKey = table.foreignKeys.find(
+    let foreignKey = table.foreignKeys.find(
       (fk) => fk.columnNames.indexOf("locationId") !== -1
+    );
+    await queryRunner.dropForeignKey("tickets", foreignKey);
+    foreignKey = table.foreignKeys.find(
+      (fk) => fk.columnNames.indexOf("companyId") !== -1
     );
     await queryRunner.dropForeignKey("tickets", foreignKey);
     await queryRunner.dropTable("tickets");
