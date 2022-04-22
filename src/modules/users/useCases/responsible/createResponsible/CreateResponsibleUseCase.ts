@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
+import { validData, validPhone } from "../../../../../utils/dataValidation";
 import { Location } from "../../../entities/Location";
 import { IResponsibleRepository } from "../../../repositories/IResponsibleRepository";
 
@@ -21,6 +22,12 @@ class CreateResponsibleUseCase {
   ) {}
 
   async execute(data: IRequest): Promise<void> {
+    const { name, address, phone, city, state } = data;
+    validData({
+      data: { name, address, city, state },
+    });
+    validPhone(phone);
+
     await this.responsibleRepository.create(data);
   }
 }

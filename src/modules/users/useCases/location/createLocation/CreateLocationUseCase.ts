@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
+import { validData } from "../../../../../utils/dataValidation";
 import { Company } from "../../../entities/Company";
 import { ILocationRepository } from "../../../repositories/ILocationRepository";
 
@@ -25,6 +26,10 @@ class CreateLocationUseCase {
     state,
     company,
   }: IRequest): Promise<string> {
+    validData({
+      data: { name, address, city, state },
+    });
+
     const id = await this.locationRepository.create({
       name,
       address,

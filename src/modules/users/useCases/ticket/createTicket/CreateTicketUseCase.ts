@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
+import { validData } from "../../../../../utils/dataValidation";
 import { Company } from "../../../entities/Company";
 import { Location } from "../../../entities/Location";
 import { ITicketsRepository } from "../../../repositories/ITicketsRespository";
@@ -24,6 +25,7 @@ class CreateTicketUseCase {
     location,
     will_solve,
   }: IRequest): Promise<void> {
+    validData({ data: { created_by, will_solve } });
     await this.ticketsRepository.create({
       company,
       created_by,
