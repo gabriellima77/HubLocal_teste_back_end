@@ -2,6 +2,7 @@ import { hash } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
+import { AppError } from "../../../../../errors/AppError";
 import { IUserRepository } from "../../../repositories/IUserRepository";
 
 interface IRequest {
@@ -29,7 +30,7 @@ class CreateUserUseCase {
   async execute({ email, name, password }: IRequest): Promise<IResponse> {
     const user = await this.userRepository.findByEmail(email);
     if (user) {
-      throw new Error("User alredy exists!");
+      throw new AppError("User alredy exists!", 400);
     }
 
     const encryptedPassword = await hash(password, 8);

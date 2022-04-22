@@ -7,20 +7,16 @@ class CreateLocationController {
   async handle(request, response: Response): Promise<Response> {
     const { name, address, city, state } = request.body;
     const { company } = request;
-    try {
-      const createLocationUseCase = container.resolve(CreateLocationUseCase);
+    const createLocationUseCase = container.resolve(CreateLocationUseCase);
 
-      const id = await createLocationUseCase.execute({
-        address,
-        city,
-        name,
-        state,
-        company,
-      });
-      return response.status(201).json({ id });
-    } catch (error) {
-      return response.status(400).json({ error: error.message });
-    }
+    const id = await createLocationUseCase.execute({
+      address,
+      city,
+      name,
+      state,
+      company,
+    });
+    return response.status(201).json({ id });
   }
 }
 

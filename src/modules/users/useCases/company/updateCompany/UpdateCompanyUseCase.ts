@@ -1,5 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
+import { AppError } from "../../../../../errors/AppError";
+import { validData } from "../../../../../utils/dataValidation";
 import { Company } from "../../../entities/Company";
 import { ICompaniesRepository } from "../../../repositories/ICompaniesRepository";
 
@@ -17,9 +19,11 @@ class UpdateCompanyUseCase {
   ) {}
 
   async execute({ name, description, id }: IRequest): Promise<Company> {
+    validData({ data: { name, description } });
+
     const hasCompany = await this.companiesRepository.findCompanyById(id);
     if (!hasCompany) {
-      throw new Error("Company doesn't exist!");
+      throw new AppError("Company doesn't exist!", 404);
     }
     const company = await this.companiesRepository.update({
       description,

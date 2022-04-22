@@ -1,6 +1,7 @@
 import { verify } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
+import { AppError } from "../../../../../errors/AppError";
 import { IUserRepository } from "../../../repositories/IUserRepository";
 
 interface IResponse {
@@ -25,7 +26,7 @@ class UserAuthenticatedUseCase {
       const user = await this.userRepository.findById(String(user_id));
 
       if (!user) {
-        throw new Error("User doesn't exist!");
+        throw new AppError("User doesn't exist!", 401);
       }
       return {
         name: user.name,
@@ -33,7 +34,7 @@ class UserAuthenticatedUseCase {
         email: user.email,
       };
     } catch {
-      throw new Error("Invalid token!");
+      throw new AppError("Invalid token!", 401);
     }
   }
 }
