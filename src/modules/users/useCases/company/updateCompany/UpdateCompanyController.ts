@@ -13,7 +13,11 @@ class UpdateCompanyController {
       description,
       id,
     });
-    return response.json(company);
+    return response.json({
+      name: company.name,
+      description: company.description,
+      id,
+    });
   }
 }
 
