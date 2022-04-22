@@ -11,7 +11,7 @@ export async function checkIfCompanyExists(
   const repository = new CompaniesRepository();
   const company = await repository.findCompanyById(company_id);
   if (!company) {
-    return response.status(400).json({ error: "Company doesn't exist!" });
+    return response.status(404).json({ error: "Company doesn't exist!" });
   }
   request.company = company;
   return next();

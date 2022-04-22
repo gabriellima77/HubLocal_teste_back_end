@@ -26,7 +26,7 @@ class UserAuthenticatedUseCase {
       const user = await this.userRepository.findById(String(user_id));
 
       if (!user) {
-        throw new AppError("User doesn't exist!", 401);
+        throw new AppError("User doesn't exist!", 404);
       }
       return {
         name: user.name,
