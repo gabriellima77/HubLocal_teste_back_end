@@ -6,6 +6,7 @@ import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { empresasRouter } from "./empresas.routes";
 import { locaisRouter } from "./locais.routes";
 import { responsaveisRouter } from "./responsaveis.routes";
+import { ticketsRouter } from "./tickets.routes";
 import { usersRouter } from "./users.routes";
 
 const router = Router();
@@ -17,6 +18,7 @@ router.use("/empresas", empresasRouter);
 
 router.use(checkIfCompanyExists);
 router.use("/locais", locaisRouter);
+router.use("/tickets", ticketsRouter);
 
 router.use(checkIfLocationExists);
 router.use("/responsaveis", responsaveisRouter);

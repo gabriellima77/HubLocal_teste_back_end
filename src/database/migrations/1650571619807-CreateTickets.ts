@@ -5,11 +5,11 @@ import {
   TableForeignKey,
 } from "typeorm";
 
-export class CreateResponsible1650425873468 implements MigrationInterface {
+export class CreateTickets1650571619807 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "responsible",
+        name: "tickets",
         columns: [
           {
             name: "id",
@@ -17,32 +17,28 @@ export class CreateResponsible1650425873468 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: "name",
+            name: "title",
             type: "varchar",
           },
           {
-            name: "phone",
+            name: "created_by",
             type: "varchar",
           },
           {
-            name: "isMain",
-            type: "boolean",
-            default: false,
-          },
-          {
-            name: "address",
+            name: "will_solve",
             type: "varchar",
           },
           {
-            name: "city",
-            type: "varchar",
-          },
-          {
-            name: "state",
-            type: "varchar",
+            name: "status",
+            type: "enum",
+            enum: ["pendente", "progresso", "concluido"],
           },
           {
             name: "locationId",
+            type: "uuid",
+          },
+          {
+            name: "companyId",
             type: "uuid",
           },
           {
@@ -60,7 +56,7 @@ export class CreateResponsible1650425873468 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      "responsible",
+      "tickets",
       new TableForeignKey({
         columnNames: ["locationId"],
         referencedTableName: "locations",
@@ -68,14 +64,28 @@ export class CreateResponsible1650425873468 implements MigrationInterface {
         onDelete: "CASCADE",
       })
     );
+
+    await queryRunner.createForeignKey(
+      "tickets",
+      new TableForeignKey({
+        columnNames: ["companyId"],
+        referencedTableName: "companies",
+        referencedColumnNames: ["id"],
+        onDelete: "CASCADE",
+      })
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const table = await queryRunner.getTable("responsible");
-    const foreignKey = table.foreignKeys.find(
+    const table = await queryRunner.getTable("tickets");
+    let foreignKey = table.foreignKeys.find(
       (fk) => fk.columnNames.indexOf("locationId") !== -1
     );
-    await queryRunner.dropForeignKey("responsible", foreignKey);
-    await queryRunner.dropTable("responsible");
+    await queryRunner.dropForeignKey("tickets", foreignKey);
+    foreignKey = table.foreignKeys.find(
+      (fk) => fk.columnNames.indexOf("companyId") !== -1
+    );
+    await queryRunner.dropForeignKey("tickets", foreignKey);
+    await queryRunner.dropTable("tickets");
   }
 }
