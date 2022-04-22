@@ -18,9 +18,9 @@ router.use("/empresas", empresasRouter);
 
 router.use(checkIfCompanyExists);
 router.use("/locais", locaisRouter);
+router.use("/tickets", ticketsRouter);
 
 router.use(checkIfLocationExists);
 router.use("/responsaveis", responsaveisRouter);
-router.use("/tickets", ticketsRouter);
 
 export { router };

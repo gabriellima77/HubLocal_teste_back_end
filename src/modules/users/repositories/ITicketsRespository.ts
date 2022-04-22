@@ -12,6 +12,7 @@ interface ICreateTicketDTO {
 interface IUpdateTicketDTO {
   status: "pendente" | "progresso" | "concluido";
   id: string;
+  will_solve?: string;
 }
 
 interface ITicketsRepository {

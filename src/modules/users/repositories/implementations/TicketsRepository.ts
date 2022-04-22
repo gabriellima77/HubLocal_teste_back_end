@@ -29,7 +29,6 @@ class TicketsRepository implements ITicketsRepository {
       status: "pendente",
     });
     ticket.title = ticket.id + location.name;
-    console.log(ticket);
     await this.respository.save(ticket);
   }
 
@@ -56,8 +55,12 @@ class TicketsRepository implements ITicketsRepository {
     return ticket;
   }
 
-  async update({ status, id }: IUpdateTicketDTO): Promise<Ticket> {
-    const ticket = await this.respository.save({ status, id });
+  async update({ status, id, will_solve }: IUpdateTicketDTO): Promise<Ticket> {
+    const update = { status, id };
+    if (will_solve) {
+      Object.assign(update, { will_solve });
+    }
+    const ticket = await this.respository.save(update);
     return ticket;
   }
 
