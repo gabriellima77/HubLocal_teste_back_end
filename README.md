@@ -1,6 +1,6 @@
 # Back End da aplicação ILocation
 
-## Técnologias usadas
+## Tecnologias usadas
 
 - Nodejs
 - Express
