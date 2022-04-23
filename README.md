@@ -17,6 +17,17 @@ ILocation é uma api para cadastro de empresas e seus locais de atendimento.
 
 ## Instalando e rodando a aplicação
 
+- Instale todas as dependências:
+
+```console
+npm install
+```
+ou
+
+```console
+yarn
+```
+
 - Para usar a aplicação com o docker:
 
 ```console
