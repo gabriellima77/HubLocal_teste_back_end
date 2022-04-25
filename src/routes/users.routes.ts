@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { CreateUserController } from "../modules/users/useCases/users/createUser/CreateUserController";
 import { UserAuthenticatedController } from "../modules/users/useCases/users/userAuthenticated/UserAuthenticatedController";
 import { UserLoginController } from "../modules/users/useCases/users/userLogin/UserLoginController";
@@ -14,6 +15,10 @@ usersRouter.post("/login", userLoginController.handle);
 
 usersRouter.post("/signup", createUserController.handle);
 
-usersRouter.post("/getUserByToken", userAuthenticatedController.handle);
+usersRouter.get(
+  "/getUserByToken",
+  ensureAuthenticated,
+  userAuthenticatedController.handle
+);
 
 export { usersRouter };

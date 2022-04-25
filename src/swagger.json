@@ -138,27 +138,19 @@
       }
     },
     "/getUserByToken": {
-      "post": {
+      "get": {
         "tags": ["Authentication"],
         "summary": "Get User by token.",
         "description": "Give user content based in a Json Web Token.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "token": {
-                    "type": "string"
-                  }
-                }
-              },
-              "example": {
-                "token": "A valid JWT token!"
-              }
-            }
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The user JWT authorization",
+            "required": true,
+            "type": "string"
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Success",
